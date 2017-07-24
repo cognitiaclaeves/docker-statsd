@@ -19,8 +19,11 @@ RUN apt-get --yes install gnupg curl && \
 
 ADD https://github.com/etsy/statsd/archive/v0.8.0.tar.gz /tmp/statsd.tar.gz
 
-RUN mkdir -p /src/statsd && tar -xzvf /tmp/statsd.tar.gz --strip-components=1 -C /src/statsd && \
-    rm /tmp/statsd.tar.gz
+# This may be different for docker-ce:
+# RUN mkdir -p /src/statsd && tar -xzvf /tmp/statsd.tar.gz --strip-components=1 -C /src/statsd && \
+#    rm -rf /tmp/statsd.tar.gz
+
+RUN mkdir /src && mv /tmp/statsd.tar.gz/statsd-0.8.0/ /src/statsd && rm -rf /tmp/statsd.tar.gz
 
 COPY config.js /etc/statsd/config.js
 
